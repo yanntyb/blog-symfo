@@ -14,6 +14,7 @@
         {% endblock %}
     </head>
     <body>
+        {{ knp_menu_render('main', {currentAsLink: true}) }}
         {% block body %}{% endblock %}
     </body>
 </html>

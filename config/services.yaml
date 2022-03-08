@@ -20,5 +20,15 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    app.menu_builder:
+        class: App\Menu\Builder
+        arguments: [ "@knp_menu.factory" ]
+    app.main_menu:
+        class: Knp\Menu\MenuItem
+        factory: [ "@app.menu_builder", mainMenu ]
+        arguments: [ "@request_stack" ]
+        tags:
+            - { name: knp_menu.menu, alias: main }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
