@@ -1,0 +1,7 @@
+<a href="{{ path('category_single', {id: category.id}) }}" class="category">
+    <img class="category-thumb" src="{{ asset(category.image) }}" alt="">
+    <div class="category-content">
+        <h1>{{ category.title }}</h1>
+        <h2>{{ category.articles.count }} articles </h2>
+    </div>
+</a>

@@ -30,6 +30,10 @@ class AdminController extends AbstractDashboardController
             ->setTitle('Blog');
     }
 
+    /**
+     * Create left menu bar
+     * @return iterable
+     */
     public function configureMenuItems(): iterable
     {
         return [
@@ -44,6 +48,10 @@ class AdminController extends AbstractDashboardController
         ];
     }
 
+    /**
+     * Needed because sass loader is enabled
+     * @return Assets
+     */
     public function configureAssets(): Assets
     {
         return Assets::new()->addCssFile('bundles/easyadmin/app.css');

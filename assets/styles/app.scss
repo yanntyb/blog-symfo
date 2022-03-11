@@ -1,9 +1,16 @@
 @use "./component/nav";
+@use "./component/category";
+@use "./component/article";
+@use "./component/comment";
 
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body{
+    background-color: #F1F4F8;
 }
 
 

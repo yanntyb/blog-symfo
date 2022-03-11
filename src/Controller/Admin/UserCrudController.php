@@ -13,6 +13,12 @@ class UserCrudController extends AbstractCrudController
     {
         return User::class;
     }
+
+    /**
+     * User form
+     * @param string $pageName
+     * @return iterable
+     */
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -21,7 +27,9 @@ class UserCrudController extends AbstractCrudController
             ChoiceField::new("roles")->setChoices(
                 [
                     "ROLE_ADMINISTRATOR" => "ROLE_ADMINISTRATOR",
-                    "ROLE_MODERATOR" => "ROLE_MODERATOR"
+                    "ROLE_MODERATOR" => "ROLE_MODERATOR",
+                    "ROLE_USER" => "ROLE_USER",
+                    "ROLE_AUTHOR" => "ROLE_AUTHOR"
                 ]
             )->allowMultipleChoices()
         ];

@@ -2,7 +2,10 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Comment;
 use App\Entity\User;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
@@ -25,10 +28,19 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     {
         return [
             //BeforeEntityUpdatedEvent::class => ["updateUser"],
-            BeforeEntityPersistedEvent::class => ["addUser"]
+            BeforeEntityPersistedEvent::class => [
+                ["addUser",255],
+                ["addComment", 255]
+            ]
         ];
     }
 
+
+    /**
+     * Encode user's password when it is updated with easyadmin
+     * @param BeforeEntityUpdatedEvent $event
+     * @return void
+     */
     public function updateUser(BeforeEntityUpdatedEvent $event)
     {
         $entity = $event->getEntityInstance();
@@ -39,6 +51,11 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         $this->encodePassword($entity);
     }
 
+    /**
+     * Encode user's password when it is created whith easyadmin
+     * @param BeforeEntityPersistedEvent $event
+     * @return void
+     */
     public function addUser(BeforeEntityPersistedEvent $event){
         $entity = $event->getEntityInstance();
 
@@ -48,6 +65,11 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         $this->encodePassword($entity);
     }
 
+    /**
+     * Function to hash password
+     * @param User $user
+     * @return void
+     */
     private function encodePassword(User $user)
     {
         $pass = $user->getPassword();
@@ -58,6 +80,21 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             )
         );
         $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * Set comment date to current one when created with easyadmin
+     * @param BeforeEntityPersistedEvent $event
+     * @return void
+     */
+    public function addComment(BeforeEntityPersistedEvent $event){
+        $entity = $event->getEntityInstance();
+        if(!$entity instanceof  Comment){
+            return;
+        }
+        $entity->setDate(new DateTime("now"));
+        $this->entityManager->persist($entity);
         $this->entityManager->flush();
     }
 }

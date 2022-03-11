@@ -90,4 +90,35 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+
+    /**
+     * Return associative array with user's info
+     * @return array
+     */
+    public function findAllToArray(){
+        $users = $this->createQueryBuilder("u")
+            ->andWhere("u.id = u.id")
+            ->getQuery()
+            ->getArrayResult();
+        $return = [];
+        foreach($users as $user){
+            $return[$user["email"]] = $user["id"];
+        }
+
+        return $return;
+    }
+
+    /**
+     * Return true if email is already taken
+     * @param string|null $email
+     * @return float|int|mixed|string
+     */
+    public function checkMailExist(?string $email)
+    {
+        return $this->createQueryBuilder("u")
+            ->andWhere("u.email = :email")
+            ->setParameter("email", $email)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -73,4 +73,17 @@ class CategoryRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllToArray()
+    {
+        $categories = $this->createQueryBuilder("c")
+            ->andWhere("c.id = c.id")
+            ->getQuery()
+            ->getArrayResult();
+        $return = [];
+        foreach($categories as $category){
+            $return[$category["title"]] = $category["id"];
+        }
+
+        return $return;
+    }
 }

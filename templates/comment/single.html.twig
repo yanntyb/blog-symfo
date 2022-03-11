@@ -1,0 +1,11 @@
+<div class="comment">
+    <div class="comment-action">
+    {% if comment.user.id == user.id %}
+        <a href="{{ path("comment_edit", {id: comment.id}) }}">EDIT</a>
+        <a href="{{ path("comment_delete", {id: comment.id}) }}">DELETE</a>
+    {% endif %}
+    </div>
+    <div class="comment-user">{{ comment.user.email }}:</div>
+    <div class="comment-content">{{ comment.content| raw }}</div>
+    <div class="comment-date">{{ comment.date | date("m/d/Y") }}</div>
+</div>
